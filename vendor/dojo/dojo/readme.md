@@ -1,0 +1,1 @@
+This is a minimal build of dojo 1.7.2. It includes the loader plus dojo/domReady, dojo/on and dojo/topic

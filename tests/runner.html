@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>spirr test runner</title>
+
+        <link rel="stylesheet" href="../vendor/qunit/qunit/qunit.css" type="text/css" media="screen">
+        <script type="text/javascript" src="../vendor/qunit/qunit/qunit.js"></script>
+
+        <script>
+            var dojoConfig = {
+                async: 1,
+                packages: [
+                    { name: 'sirprize/spirr', location: '../../../lib/sirprize/spirr' },
+                    { name: 'tests', location: '../../../tests' }
+                ]
+            };
+        </script>
+
+        <script src="../vendor/dojo/dojo/dojo.js"></script>
+
+        <script>
+            require(['tests/tests']);
+        </script>
+    </head>
+    
+    <body>
+        <h1 id="qunit-header">Spirr Test Suite</h1>
+        <h2 id="qunit-banner"></h2>
+        <div id="qunit-testrunner-toolbar"></div>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests"></ol>
+        <div id="qunit-fixture">test markup</div>
+    </body>
+</html>
