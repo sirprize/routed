@@ -1,10 +1,10 @@
 # Spirr (Single Page Interface Request Router)
 
-Spirr is a AMD compliant library for request routing in single page apps
+Spirr is an AMD compliant library for request routing in single page apps
 
 ## Usage
 
-Spirr is framework-agnostic but requires a AMD loader to load the modules. Here's an example of a single page application using Dojo 1.7 (module loader, events and pub/sub):
+Spirr is framework-agnostic but requires an AMD loader to load the modules. Here's an example of a single page application using Dojo 1.7 (module loading, history api detection, events and pub/sub):
 
 `my/app.js`
 
@@ -12,56 +12,58 @@ Spirr is framework-agnostic but requires a AMD loader to load the modules. Here'
         "sirprize/spirr/Request",
         "sirprize/spirr/Router",
         "sirprize/spirr/Route",
+        "dojo/has",
         "dojo/on",
         "dojo/topic",
         "dojo/domReady!"
-    ], function(Request, Router, Route, on, topic) {
+    ], function(Request, Router, Route, has, on, topic) {
 
-        var router = new Router(),
+        var router = Router(),
 
         handleState = function(router){
-            var request = new Request(window.location.href);
-            router.route(new Request(window.location.href));
-            var route = router.getCurrentRoute();
+            var route = null, request = Request(window.location.href);
+            router.route(request);
+            route = router.getCurrentRoute();
 
             if(route) { route.callback(request); }
             else { console.log('no route found'); }
         };
 
-        router.addRoute('home', new Route(
+        router.addRoute('home', Route(
             '/home',
             function(request) { console.log('home'); }
         ));
 
-        router.addRoute('products', new Route(
+        router.addRoute('products', Route(
             '/products',
             function(request) { console.log('products'); }
         ));
 
-        router.addRoute('product', new Route(
+        router.addRoute('product', Route(
             '/products/:id',
             function(request) { console.log('product'); }
         ));
-
-        // handle the browser back and forward buttons
-        on(window, 'popstate', function (ev) {
+        
+        (function run(){
+            // register history api detection
+            has.add('native-history-state', function(g) {
+                return ("history" in g) && ("pushState" in history);
+            });
+            
+            // handle the browser back and forward buttons
+            on(window, 'popstate', function (ev) {
+                handleState(router);
+            });
+            
+            // From within your app, publish a topic whenever state should be changed
+            topic.subscribe('onPushState', function(args) {
+                history.pushState(args.state, args.title, args.url);
+                return handleState(router);
+            });
+            
+            // handle the initial state upon page load
             handleState(router);
-        });
-
-        // From within your app, publish a topic whenever state should be changed
-        // This block checks for availability of the history API and takes appropriate action
-        topic.subscribe('onPushState', function(pushStateArgs) {
-            if (!(window.history && history.pushState)) {
-                // not supported by browser - make the trip to server
-                return window.location = pushStateArgs.url;
-            }
-
-            history.pushState(pushStateArgs.state, pushStateArgs.title, pushStateArgs.url);
-            handleState(router);
-        });
-
-        // handle the initial state upon page load
-        handleState(router);
+        })();
     });
 
 `index.html`
