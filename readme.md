@@ -1,6 +1,6 @@
 # Spirr (Single Page Interface Request Router)
 
-Spirr is an AMD compliant library for request routing in single page apps
+AMD compliant library for request routing in single page apps
 
 ## Usage
 
