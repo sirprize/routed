@@ -4,97 +4,52 @@ AMD compliant library for request routing in single page apps
 
 ## Usage
 
-Spirr is framework-agnostic but requires an AMD loader to load the modules. Here's an example of a single page application using Dojo 1.7 (module loading, history api detection, events and pub/sub):
+Spirr maps urls to callback functions and provides the infrastructure to assemble urls based on your url schema.
 
-`my/app.js`
+## Request
 
-    define([
-        "sirprize/spirr/Request",
-        "sirprize/spirr/Router",
-        "sirprize/spirr/Route",
-        "dojo/has",
-        "dojo/on",
-        "dojo/topic",
-        "dojo/domReady!"
-    ], function(Request, Router, Route, has, on, topic) {
+The request object decomposes an url into it's parts and makes them available to your application
 
-        var router = Router(),
+    var request = Request('/releases?sort=release-date&order=desc');
+    var path = request.getPathname(); // returns '/releases'
+    var params = request.getQueryParams() // returns { sort: 'release-date', order: 'desc' }
 
-        handleState = function(router){
-            var route = null, request = Request(window.location.href);
-            router.route(request);
-            route = router.getCurrentRoute();
+## Routes
 
-            if(route) { route.callback(request); }
-            else { console.log('no route found'); }
-        };
-
-        router.addRoute('home', Route(
-            '/home',
-            function(request) { console.log('home'); }
-        ));
-
-        router.addRoute('products', Route(
-            '/products',
-            function(request) { console.log('products'); }
-        ));
-
-        router.addRoute('product', Route(
-            '/products/:id',
-            function(request) { console.log('product'); }
-        ));
-        
-        (function run(){
-            // register history api detection
-            has.add('native-history-state', function(g) {
-                return ("history" in g) && ("pushState" in history);
-            });
-            
-            // handle the browser back and forward buttons
-            on(window, 'popstate', function (ev) {
-                handleState(router);
-            });
-            
-            // From within your app, publish a topic whenever state should be changed
-            topic.subscribe('onPushState', function(args) {
-                history.pushState(args.state, args.title, args.url);
-                return handleState(router);
-            });
-            
-            // handle the initial state upon page load
-            handleState(router);
-        })();
+Start by defining the routes for your application. A route consists of a schema to match with an url and a callback defining the action to be taken if matched. The schema can contain variable parts. Path variables start with ":"
+    
+    // a simple route
+    var releases = Route('/releases', function(){
+        // make releases page
     });
 
-`index.html`
+    // a route with variables - this will match urls such /releases/ay-ay-ay
+    var release = Route('/release/:release', function(){
+        // make release page
+    });
 
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <meta charset="utf-8">
-            <title>home</title>
+## Router
 
-            <script>
-                var dojoConfig = {
-                    async: 1,
-                    packages: [
-                        { name: "sirprize/spirr", location: "/path/to/spirr/lib/sirprize/spirr" },
-                        { name: 'my/app', location: '/path/to/my/app' }
-                    ]
-                };
-            </script>
+Now add the routes to the router. The router is responsible for finding a route on a given request. Path variables are injected into the request object
 
-            <script src="/path/to/vendor/dojo/dojo.js"></script>
+    var router = Router();
+    router.addRoute('releases', releases);
+    router.addRoute('release', release);
+    
+    // try to match the current request to a route
+    var route = router.route(request);
+    
+    if(route) {
+        // execute the route's callback function
+        route.callback(request);
+    }
 
-            <script>
-                require(['my/app']);
-            </script>
-        </head>
+## Url Assembling
+    
+Routes provide the infrastructure to assemble urls within your application
 
-        <body>
-            <div id="page"></div>
-        </body>
-    </html>
+    var targetRoute = router.getRoute('release');
+    var url = targetRoute.assemble({ release: 'ay-ay-ay' }); // return '/release/ay-ay-ay'
 
 ## Running Tests In The Browser
 
