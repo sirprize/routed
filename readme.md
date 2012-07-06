@@ -16,14 +16,14 @@ The request object decomposes an url into it's parts and makes them available to
 
 ## Routes
 
-Start by defining the routes for your application. A route consists of a schema to match with an url and a callback defining the action to be taken if matched. The schema can contain variable parts. Path variables start with ":"
+Start by defining the routes for your application. A route consists of a schema to match against an url and a callback defining the action to be taken if matched. The schema can contain variable parts. Path variables start with ":"
     
     // a simple route
     var releases = Route('/releases', function(){
         // make releases page
     });
 
-    // a route with variables - this will match urls such /releases/ay-ay-ay
+    // a route with variables - this will match urls such as /releases/ay-ay-ay
     var release = Route('/release/:release', function(){
         // make release page
     });
