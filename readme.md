@@ -41,7 +41,7 @@ Now add the routes to the router. The router is responsible for finding a route 
     
     if(route) {
         // execute the route's callback function
-        route.callback(request);
+        route.run(request);
     }
 
 ## Url Assembling
