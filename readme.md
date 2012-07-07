@@ -4,7 +4,7 @@ AMD compliant library for request routing in single page apps
 
 ## Usage
 
-Spirr maps urls to callback functions and provides the infrastructure to assemble urls based on your url schema.
+Spirr maps urls to callback functions and provides the infrastructure to assemble urls based on your url schema. This library does NOT implement behaviour to change state by means of the History API or hashes. See [Dojod](https://github.com/sirprize/dojod) for a solution based on Spirr, the dojo widget architecture and History API.
 
 ## Request
 
