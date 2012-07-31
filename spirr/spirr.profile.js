@@ -1,8 +1,8 @@
 var profile = (function(){
     var copyOnly = function(filename, mid){
         var list = {
-            "sirprize/spirr/sirprize.spirr.profile": 1,
-            "sirprize/spirr/package.json": 1
+            "spirr/spirr.profile": 1,
+            "spirr/package.json": 1
         };
         return (mid in list);
     };

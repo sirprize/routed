@@ -1,7 +1,6 @@
 define(["./Route"], function(Route) {
     return function (routeMap) {
-        var currentRouteName = null;
-        var routes = [];
+        var currentRouteName = null, routes = [], mapItemName = null;
         
         var addRoute = function (mapItemName, route) {
             routes[mapItemName] = route;

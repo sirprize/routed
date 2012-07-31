@@ -1,6 +1,0 @@
-{
-    "name": "sirprize/spirr",
-    "description": "Spirr is a AMD compliant library for request routing in single page apps",
-    "version": 0.1,
-    "dojoBuild": "sirprize.spirr.profile.js"
-}

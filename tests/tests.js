@@ -1,7 +1,7 @@
 define([
-    "sirprize/spirr/Request",
-    "sirprize/spirr/Router",
-    "sirprize/spirr/Route"
+    "spirr/Request",
+    "spirr/Router",
+    "spirr/Route"
 ], function(Request, Router, Route) {
     
     module('Request');
@@ -73,24 +73,24 @@ define([
 
         var router = Router(routeMap);
         var request = Request('http://example.com/some/url/that/wont/match/any/route');
-        r = router.route(request);
+        var r = router.route(request);
         deepEqual(r, null, request.getPathname());
 
         var router = Router(routeMap);
         var request = Request('http://example.com/releases');
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'releases', request.getPathname());
         deepEqual(r.getPathParams(), {}, request.getPathname());
 
         var router = Router(routeMap);
         var request = Request('http://example.com/releases/'); // trailing slash
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'releases', request.getPathname());
         deepEqual(r.getPathParams(), {}, request.getPathname());
         
         var router = Router(routeMap);
         var request = Request('http://example.com/releases/ay-ay-ay');
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'release', request.getPathname());
         deepEqual(r.getPathParams(), { release: 'ay-ay-ay' }, request.getPathname());
 
@@ -103,7 +103,7 @@ define([
 
         var router = Router(routeMap);
         var request = Request('http://example.com/articles/some-name');
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'article-with-fixed-name', request.getPathname());
         deepEqual(r.getPathParams(), {}, request.getPathname());
 
@@ -114,7 +114,7 @@ define([
 
         var router = Router(routeMap);
         var request = Request('http://example.com/articles/some-name');
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'article', request.getPathname());
         deepEqual(r.getPathParams(), { article: 'some-name' }, request.getPathname());
 
@@ -127,7 +127,7 @@ define([
 
         var router = Router(routeMap);
         var request = Request('http://example.com/posts');
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'post1', request.getPathname());
         deepEqual(r.getPathParams(), {}, request.getPathname());
 
@@ -138,7 +138,7 @@ define([
 
         var router = Router(routeMap);
         var request = Request('http://example.com/posts');
-        r = router.route(request);
+        var r = router.route(request);
         equal(router.getCurrentRouteName(), 'post1', request.getPathname());
         deepEqual(r.getPathParams(), {}, request.getPathname());
 
