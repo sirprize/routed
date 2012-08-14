@@ -1,17 +1,23 @@
-define(["./Route"], function(Route) {
+/*global define: true */
+
+define(["./Route"], function (Route) {
+    "use strict";
+
     return function (routeMap) {
-        var currentRouteName = null, routes = [], mapItemName = null;
-        
-        var addRoute = function (mapItemName, route) {
-            routes[mapItemName] = route;
-        };
-        
+        var currentRouteName = null,
+            routes = [],
+            mapItemName = null,
+
+            addRoute = function (mapItemName, route) {
+                routes[mapItemName] = route;
+            };
+
         for (mapItemName in routeMap) {
             if (routeMap.hasOwnProperty(mapItemName)) {
                 addRoute(mapItemName, routeMap[mapItemName]);
             }
         }
-        
+
         return {
             addRoute: function (mapItemName, route) {
                 addRoute(mapItemName, route);
@@ -47,9 +53,9 @@ define(["./Route"], function(Route) {
             getCurrentRouteName: function () {
                 return currentRouteName;
             },
-            
-            getRoute: function(name) {
-                if(!routes[name]) {
+
+            getRoute: function (name) {
+                if (!routes[name]) {
                     throw new Error('Route does not exist: ' + name);
                 }
                 return routes[name];
