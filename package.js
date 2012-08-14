@@ -2,8 +2,8 @@ var profile = (function (){
 
     var miniExcludes = {
             "LICENSE": 1,
-            "spirr/package": 1,
-            "spirr/package.json": 1,
+            "routed/package": 1,
+            "routed/package.json": 1,
             "readme.md": 1
         },
         isTestRe = /\/tests\//

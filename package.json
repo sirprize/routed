@@ -1,6 +1,6 @@
 {
-    "name": "spirr",
-    "description": "Spirr is an AMD compliant library for request routing in single page apps",
+    "name": "routed",
+    "description": "Routed is an AMD compliant library for request routing in Javascript apps",
     "version": 0.1,
     "dojoBuild": "package.js"
 }
