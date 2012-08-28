@@ -4,7 +4,7 @@ AMD compliant library for request routing in Javascript apps
 
 ## Usage
 
-Routed maps urls to callback functions and provides the infrastructure to assemble urls based on your url schema. This library does NOT implement behaviour to change state by means of the History API or hashes. See [Dojod](https://github.com/sirprize/dojod) for a solution based on Routed, the dojo widget architecture and History API.
+Routed maps urls to callback functions and provides the infrastructure to assemble urls based on your url schema. This library does NOT implement behaviour to change state by means of the History API or hashes. See [Dispatched](https://github.com/sirprize/dispatched) for a solution based on Routed, the dojo widget architecture and History API.
 
 ## Request
 
