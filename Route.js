@@ -30,22 +30,24 @@ define([], function () {
                 return params;
             },
 
-            assemble: function (params, query) {
+            assemble: function (pathParams, queryParams) {
                 var url = '',
-                    param = null,
+                    pathParam = null,
                     part = null,
                     partIndex = 0,
-                    schemaParts = schema.replace(/^\/|\/$/g, "").split('/');
+                    schemaParts = schema.replace(/^\/|\/$/g, "").split('/'),
+                    queryParam = null,
+                    queryPairs = [];
 
                 for (partIndex = 0; partIndex < schemaParts.length; partIndex += 1) {
                     if (schemaParts[partIndex].match(/^\:(\w*)$/)) {
-                        param = schemaParts[partIndex].replace(/^\:(\w*)$/, "$1");
+                        pathParam = schemaParts[partIndex].replace(/^\:(\w*)$/, "$1");
 
-                        if (params[param] === undefined) {
-                            throw new Error('Missing param "' + param + '" for schema: "' + schema + '"');
+                        if (pathParams[pathParam] === undefined) {
+                            throw new Error('Missing param "' + pathParam + '" for schema: "' + schema + '"');
                         }
 
-                        part = params[param];
+                        part = pathParams[pathParam];
                     } else {
                         part = schemaParts[partIndex];
                     }
@@ -55,6 +57,18 @@ define([], function () {
 
                 if (schema.match(/\/$/)) {
                     url += '/';
+                }
+                
+                if (queryParams) {
+                    for (queryParam in queryParams) {
+                        if (queryParams.hasOwnProperty(queryParam)) {
+                            queryPairs.push(queryParam + '=' + encodeURIComponent(queryParams[queryParam]));
+                        }
+                    }
+                    
+                    if (queryPairs.length) {
+                        url += '?' + queryPairs.join('&');
+                    }
                 }
 
                 return url;

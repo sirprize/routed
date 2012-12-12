@@ -63,7 +63,12 @@ define([
         var schema = '/releases/:release/tracks/:track', pathname = '/releases/ay-ay-ay/tracks/menta%20latte';
         var route = new Route(schema, function (){});
         deepEqual(route.match(pathname), { release: 'ay-ay-ay', track: 'menta latte' }, pathname);
-
+        
+        var route = new Route('/releases/:id', function (){});
+        equal(route.assemble({ id: 'xxx' }), '/releases/xxx');
+        
+        var route = new Route('/releases', function (){});
+        equal(route.assemble(null, { find: 'xxx' }), '/releases?find=xxx');
     });
 
     module('Router');
