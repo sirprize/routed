@@ -18,6 +18,11 @@ define([
         equal(request.getPathname(), '/some/path', url);
         deepEqual(request.getQueryParams(), { aa: 'AA', 'sort(+title)': 'undefined', bb: 'BB BB' }, url);
 
+        var url = 'http://example.com/some/path?aa=AA&sort(+title)&bb=BB%20BB#cc=CC';
+        var request = new Request(url);
+        equal(request.getPathname(), '/some/path', url);
+        deepEqual(request.getQueryParams(), { aa: 'AA', 'sort(+title)': 'undefined', bb: 'BB BB' }, url);
+
         var url = 'http://example.com:8080/some/path?aa=AA&sort(+title)&bb=BB%20BB';
         var request = new Request(url);
         equal(request.getPathname(), '/some/path', url);

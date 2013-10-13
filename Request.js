@@ -13,7 +13,7 @@ define([], function () {
         },
         
         getQueryString = function (url) {
-            return url.split('?')[1] || '';
+            return (url.split('?')[1] || '').split("#")[0];
         },
 
         getQueryParams = function (url) {
